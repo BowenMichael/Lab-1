@@ -79,9 +79,13 @@ float hit_sphere(const point3& center, float radius, const ray& r) {
 /// <returns></returns>
 color ray_color(const ray& r, const hittable& world) {
 	hit_record rec;
-	if (world.hit(r, 0, infinity, rec)) {// casts a ray into infinity and if it hits an image flag true
-		return color(1.0f, 0.0f, 0.0f);//rec.normal - r.origin(); // returns a color bases on the diffren
+	if (world.hit(r, 0, infinity, rec)) {// casts a ray into infinity and if it hits an image flag true //infinity
+		//std::cerr << (r.origin() - rec.normal).x * 2 << std::endl;
+		//system("pause");
+		return vec3(0.5f/rec.t, 0.5f /rec.t, 0.5f /rec.t); // The further a pixel is away from the camera the datker the pixel
+		
 	}
+	//Backround color gradiant
 	vec3 unit_direction = normalizeVector(r.direction());
 	float t = 0.5f * (unit_direction.y + 1.0f);
 	return  (1.0f - t) * color(1.0, 1.0, 1.0) + (t*1.0f) * color(0.5f, 0.7f, 1.0f); // magic numbers are for the backround color
@@ -93,14 +97,16 @@ int main(int const argc, char const* const argv[])
 	const float aspect_ratio = 16.0f / 9.0f; //sets aspect ratio to 16:9
 	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
-	const int samples_per_pixel = 50; // Numper of pixel samples take around a each pixel. The higher the number the better the anti-aliasing but the higher the compute time
+	const int samples_per_pixel = 100; // Numper of pixel samples take around a each pixel. The higher the number the better the anti-aliasing but the higher the compute time
 
 	// World Creation
 	hittable_list world; //List of hittable objects
 
 	//creating objects to add to the world
-	world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f)); 
-	world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f)); 
+	world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f)); //ball
+	//world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f)); //ground
+	//world.add(make_shared<sphere>(point3(-1.0f, 0.0f, -1.0f), .5f)); //ball
+	//world.add(make_shared<sphere>(point3(1.0f, 0.0f, -1.0f), .5f)); //ball
 
 	// Camera init
 	camera cam;

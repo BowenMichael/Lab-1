@@ -25,10 +25,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "gpro/gpro-math/gproVector.h"
-
+#include "gpro/gproColor.h"
+#include "gpro/gproRay.h"
+#include "gpro/hittableList.h"
+#include "gpro/rtWeekend.h"
+#include "gpro/sphere.h"
+#include "gpro/camera.h"
 
 void testVector()
 {
@@ -52,10 +58,74 @@ void testVector()
 #endif	// __cplusplus
 }
 
+float hit_sphere(const point3& center, float radius, const ray& r) {
+	vec3 oc = r.origin() - center;
+	float a = r.direction().length_squared();
+	float half_b = dot(oc, r.direction());
+	float c = oc.length_squared() - radius * radius;
+	float discriminant = half_b * half_b - a * c;
+	if (discriminant < 0) {
+		return -1.0f;
+	}
+	else {
+		return (-half_b - sqrt(discriminant)) / a;
+	}
+}
+
+/// <summary>
+/// Compares the ray to the world and returns a color
+/// </summary>
+/// <param name="r"></param>
+/// <returns></returns>
+color ray_color(const ray& r, const hittable& world) {
+	hit_record rec;
+	if (world.hit(r, 0, infinity, rec)) {// casts a ray into infinity and if it hits an image flag true
+		return color(1.0f, 0.0f, 0.0f);//rec.normal - r.origin(); // returns a color bases on the diffren
+	}
+	vec3 unit_direction = normalizeVector(r.direction());
+	float t = 0.5f * (unit_direction.y + 1.0f);
+	return  (1.0f - t) * color(1.0, 1.0, 1.0) + (t*1.0f) * color(0.5f, 0.7f, 1.0f); // magic numbers are for the backround color
+}
 
 int main(int const argc, char const* const argv[])
 {
-	testVector();
+	// Image set up
+	const float aspect_ratio = 16.0f / 9.0f; //sets aspect ratio to 16:9
+	const int image_width = 400;
+	const int image_height = static_cast<int>(image_width / aspect_ratio);
+	const int samples_per_pixel = 50; // Numper of pixel samples take around a each pixel. The higher the number the better the anti-aliasing but the higher the compute time
+
+	// World Creation
+	hittable_list world; //List of hittable objects
+
+	//creating objects to add to the world
+	world.add(make_shared<sphere>(point3(0.0f, 0.0f, -1.0f), 0.5f)); 
+	world.add(make_shared<sphere>(point3(0.0f, -100.5f, -1.0f), 100.0f)); 
+
+	// Camera init
+	camera cam;
+
+	// Render
+
+	//outputing to a file
+	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+
+	//Loops through the specified size of the file to assign RGB values to each specified pixel
+	for (int j = image_height - 1; j >= 0; --j) { // runs backwards to that the first pixel read is the bottom left pixel
+		std::cerr << "\rScanlines remaing: " << j << ' ' << std::flush; //using the error output stream so to not conflict with the standard output stream
+		for (int i = 0; i < image_width; ++i) {
+			color pixel_color(0, 0, 0); //creates pixel color variable
+			for (int s = 0; s < samples_per_pixel; ++s) { //the more this look runs the more blended the image will look
+				//get the uv or x/y of the veiwport then calls ray color to check what color to assign. 
+				float u = (i + random_float()) / (image_width - 1); //the x poisition on the screen converted to be between 0 and 1
+				float v = (j + random_float()) / (image_height - 1); //the y poisition on the screen converted to be between 0 and 1
+				ray r = cam.get_ray(u, v); //u and v ouline the direction of the ray from the camera's origin to that point
+				pixel_color += ray_color(r, world); //adds up the aggragrate of all the rays to get a more smooth antialiased image
+			}
+			write_color(std::cout, pixel_color, samples_per_pixel); // writes the color to the image
+		}
+	}
+	std::cerr << "\nDone. \n";
 
 	printf("\n\n");
 	system("pause");

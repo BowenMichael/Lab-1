@@ -24,7 +24,8 @@
 
 #ifndef _GPRO_VECTOR_H_
 #define _GPRO_VECTOR_H_
-
+#include <cmath>
+#include <iostream>
 
 #ifdef __cplusplus
 // DB: link C++ symbols as if they are C where possible
@@ -36,6 +37,7 @@ extern "C" {
 //	-> in C you do it like this: 
 //		union vec3 someVector;
 //	-> this forward declaration makes the first way possible in both languages!
+
 typedef union vec3 vec3;
 #endif	// __cplusplus
 
@@ -76,6 +78,17 @@ union vec3
 
 	vec3 const operator +(vec3 const& rh) const;	// addition operator (get sum of this and another)
 
+	vec3 operator-() const { return vec3(-x, -y, -z); }
+
+	float length() const {
+		return sqrt(length_squared());
+	}
+
+	float length_squared() const {
+		return x * x + y * y + z * z;
+	}
+	
+
 #endif	// __cplusplus
 };
 
@@ -92,14 +105,26 @@ floatv vec3add(float3 v_lh_sum, float3 const v_rh);	// add other to lh vector
 floatv vec3sum(float3 v_sum, float3 const v_lh, float3 const v_rh);	// get sum of lh and rh vector
 
 
+
+
 #ifdef __cplusplus
 // DB: end C linkage for C++ symbols
+
 }
+vec3 operator*(float t, const vec3& v);
+vec3 operator*(const vec3& v, float t);
+vec3 normalizeVector(vec3 v);
+vec3 operator/(vec3 v, float t);
+vec3 operator-(const vec3& u, const vec3& v);
+float dot(const vec3& u, const vec3& v);
 #endif	// __cplusplus
 
 
 // DB: include inline definitions for this interface
 #include "_inl/gproVector.inl"
 
+// Type aliases for vec3
+using point3 = vec3;   // 3D point
+using color = vec3;    // RGB color
 
 #endif	// !_GPRO_VECTOR_H_

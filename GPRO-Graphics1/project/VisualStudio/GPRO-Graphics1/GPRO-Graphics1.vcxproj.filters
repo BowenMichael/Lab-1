@@ -22,6 +22,9 @@
     <Filter Include="Header Files\gpro\gpro-math\_inl">
       <UniqueIdentifier>{17c30ac2-2be6-4942-9283-4c8bf7177f14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gpro\gpro-color">
+      <UniqueIdentifier>{dce03290-9fab-4c36-a9ba-fcd70b94348a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GPRO-Graphics1.cpp">
@@ -31,6 +34,27 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\gpro\gpro-math\gproVector.h">
       <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\gproRay.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\hittable.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\sphere.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\hittableList.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\rtWeekend.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\camera.h">
+      <Filter>Header Files\gpro\gpro-math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gpro\gproColor.h">
+      <Filter>Header Files\gpro\gpro-color</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

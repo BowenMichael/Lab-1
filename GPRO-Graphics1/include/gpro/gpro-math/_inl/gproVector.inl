@@ -1,3 +1,4 @@
+#include "..\gproVector.h"
 /*
    Copyright 2020 Daniel S. Buckstein
 
@@ -67,6 +68,9 @@ inline vec3 const vec3::operator +(vec3 const& rh) const
 	return vec3((x + rh.x), (y + rh.y), (z + rh.z));
 }
 
+
+
+
 #endif	// __cplusplus
 
 
@@ -103,6 +107,38 @@ inline floatv vec3sum(float3 v_sum, float3 const v_lh, float3 const v_rh)
 	return vec3init(v_sum, (v_lh[0] + v_rh[0]), (v_lh[1] + v_rh[1]), (v_lh[2] + v_rh[2]));
 }
 
+inline vec3 operator*(float t, const vec3& v)
+{
+	return vec3(t * v.x, t * v.y, t * v.z);
+}
+
+inline vec3 operator*(const vec3& v, float t)
+{
+	return vec3(t * v.x, t * v.y, t * v.z);
+}
+
+
+
+inline vec3 normalizeVector(vec3 v)
+{
+	return v / v.length();
+}
+
+inline vec3 operator/(vec3 v, float t)
+{
+	return (1/t) *v;
+}
+
+inline vec3 operator-(const vec3& u, const vec3& v) {
+	return vec3(u.x - v.x, u.y - v.y, u.z - v.z);
+}
+
+inline float dot(const vec3& u, const vec3& v)
+{
+	return u.x * v.x
+		+ u.y * v.y
+		+ u.z * v.z;
+}
 
 #endif	// !_GPRO_VECTOR_INL_
 #endif	// _GPRO_VECTOR_H_

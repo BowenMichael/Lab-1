@@ -1,7 +1,7 @@
 #pragma once
 #ifndef RTWEEKEND_H
 #define RTWEEKEND_H
-
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 #include <cmath>
 #include <cstdlib>
 #include <limits>
@@ -31,6 +31,7 @@ inline float random_float(float min, float max) {
     return min + (max - min) * random_float();
 }
 
+//keeps a value x within a given bounds
 inline float clamp(float x, float min, float max) {
     if (x < min) return min;
     if (x > max) return max;

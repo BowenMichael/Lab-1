@@ -1,3 +1,4 @@
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 #pragma once
 #ifndef RAY_H
 #define RAY_H
@@ -15,6 +16,7 @@ public:
     point3 origin() const { return orig; }
     vec3 direction() const { return dir; }
 
+    //returns the point at which the ray exists for a given t
     point3 at(float t) const {
         return orig + (t*dir);
     }

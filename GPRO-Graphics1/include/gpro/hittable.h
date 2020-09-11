@@ -1,4 +1,5 @@
 #pragma once
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 #ifndef HITTABLE_H
 #define HITTABLE_H
 

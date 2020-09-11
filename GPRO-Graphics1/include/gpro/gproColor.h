@@ -1,3 +1,4 @@
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 #pragma once
 #ifndef COLOR_H
 #define COLOR_H

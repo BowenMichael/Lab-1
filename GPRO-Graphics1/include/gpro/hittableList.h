@@ -1,3 +1,4 @@
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 #pragma once
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
@@ -25,6 +26,7 @@ public:
     std::vector<shared_ptr<hittable>> objects;
 };
 
+//Runs through th list of hittable objects checking if anything will be hit.
 bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     hit_record temp_rec;
     bool hit_anything = false;

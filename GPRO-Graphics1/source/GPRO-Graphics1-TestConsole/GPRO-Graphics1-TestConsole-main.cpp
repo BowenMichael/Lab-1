@@ -18,9 +18,11 @@
 	GPRO-Graphics1-TestConsole-main.c/.cpp
 	Main entry point source file for a Windows console application.
 
-	Modified by: ____________
-	Modified because: ____________
+	Modified by: Michael Bowen
+	Modified because: Added raytracing implementation 
 */
+
+
 
 
 #include <stdio.h>
@@ -58,22 +60,23 @@ void testVector()
 #endif	// __cplusplus
 }
 
-float hit_sphere(const point3& center, float radius, const ray& r) {
-	vec3 oc = r.origin() - center;
-	float a = r.direction().length_squared();
-	float half_b = dot(oc, r.direction());
-	float c = oc.length_squared() - radius * radius;
-	float discriminant = half_b * half_b - a * c;
-	if (discriminant < 0) {
-		return -1.0f;
-	}
-	else {
-		return (-half_b - sqrt(discriminant)) / a;
-	}
-}
+//float hit_sphere(const point3& center, float radius, const ray& r) {
+//	vec3 oc = r.origin() - center;
+//	float a = r.direction().length_squared();
+//	float half_b = dot(oc, r.direction());
+//	float c = oc.length_squared() - radius * radius;
+//	float discriminant = half_b * half_b - a * c;
+//	if (discriminant < 0) {
+//		return -1.0f;
+//	}
+//	else {
+//		return (-half_b - sqrt(discriminant)) / a;
+//	}
+//}
 
 /// <summary>
 /// Compares the ray to the world and returns a color
+/// //Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 /// </summary>
 /// <param name="r"></param>
 /// <returns></returns>
@@ -91,6 +94,7 @@ color ray_color(const ray& r, const hittable& world) {
 	return  (1.0f - t) * color(1.0, 1.0, 1.0) + (t*1.0f) * color(0.5f, 0.7f, 1.0f); // magic numbers are for the backround color
 }
 
+//Credit: Peter Shirley https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass
 int main(int const argc, char const* const argv[])
 {
 	// Image set up
